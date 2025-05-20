@@ -9,10 +9,15 @@ async function connectQueue() {
 
     await channel.assertQueue("test-queue");
 
-    channel.consume("test-queue", (data) => {
-      console.log(`${Buffer.from(data.content)}`);
-      channel.ack(data);
-    });
+    channel.consume(
+      "test-queue",
+      (data) => {
+        //   console.log(Buffer.from(data).toString());
+        console.log(`${Buffer.from(data.content)}`);
+        channel.ack(data);
+      },
+      { noAck: true }
+    );
   } catch (error) {
     console.log(error);
   }
